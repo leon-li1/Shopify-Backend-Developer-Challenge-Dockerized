@@ -1,10 +1,18 @@
 from typing import Optional
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from prisma import Client
 from pydantic import BaseModel
 
 client = Client()
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class CreateInput(BaseModel):
     sku: str
@@ -32,6 +40,10 @@ CRUD inventory tracking web application
 @app.on_event("startup")
 async def startup_event():
     await client.connect()
+
+@app.on_event('shutdown')
+async def shutdown_event():
+    await client.disconnect()
 
 BASE_URL = '/api/item'
 
@@ -70,5 +82,5 @@ async def getall():
     return await client.item.find_many()
 
 @app.get(BASE_URL+"/{sku}")
-async def getone(sku):
-    return await client.item.find_one(where={ "sku": sku })
+async def getone(sku: str):
+    return await client.item.find_unique(where={ "sku": sku })
