@@ -1,6 +1,8 @@
+import Link from 'next/link';
 import { useRouter } from "next/router";
 import { FormEvent } from "react";
-import useSWR from "swr"
+import useSWR from "swr";
+import axios from 'axios';
 
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
@@ -13,6 +15,7 @@ const ItemPage = () => {
     
     return (
         <div>
+            <Link href="/"><button>Back to items</button></Link>
             <h1>{item.sku} – {item.name}</h1>
             <form onSubmit={e => updateItem(sku, e)}>
                 <label>Name</label><br/>
@@ -35,20 +38,17 @@ async function updateItem(sku: string, event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.target as HTMLFormElement);
     try {
-        await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/item/${sku}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name: data.get('name'),
-                description: data.get('description'),
-                color: data.get('color'),
-                size: data.get('size'),
-                count: data.get('count'),
-            })
+        await axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/item/${sku}`, {
+            name: data.get('name'),
+            description: data.get('description'),
+            color: data.get('color'),
+            size: data.get('size'),
+            count: data.get('count'),
         })
         window.location.reload();
     } catch (error) {
-        alert('ERROR: ' + (error as any).message);
+        const errorMsg: string = (error as any)?.response?.data?.detail ?? 'Unknown error';
+        alert('ERROR: ' + errorMsg);
     }
 }
 
