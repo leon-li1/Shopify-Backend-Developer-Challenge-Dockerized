@@ -42,7 +42,6 @@ CRUD inventory tracking web application
 
 @app.on_event('startup')
 async def startup_event():
-    print(os.listdir("/app"))
     await client.connect()
 
 @app.on_event('shutdown')

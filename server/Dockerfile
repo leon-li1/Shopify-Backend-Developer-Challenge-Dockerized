@@ -30,11 +30,6 @@ FROM python AS runner
 WORKDIR /app
 RUN addgroup --gid 1001 --system python
 RUN adduser --system server -u 1001
-RUN apt-get update \
-  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    net-tools \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
 
 USER server:python
 
