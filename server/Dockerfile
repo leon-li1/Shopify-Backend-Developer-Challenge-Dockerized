@@ -30,6 +30,7 @@ FROM python AS runner
 WORKDIR /app
 RUN addgroup --gid 1001 --system python
 RUN adduser --system server -u 1001
+RUN chown server:python .
 
 USER server:python
 
