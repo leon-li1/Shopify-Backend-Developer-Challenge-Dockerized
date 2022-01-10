@@ -30,6 +30,8 @@ const ItemPage = () => {
                 <input name="count" defaultValue={item.count}/><br/><br/>
                 <button type="submit">Save</button>
             </form>
+            <br/>
+            <button onClick={() => deleteItem(sku)}>Delete this Item</button>
         </div>
     )
 }
@@ -51,5 +53,16 @@ async function updateItem(sku: string, event: FormEvent<HTMLFormElement>) {
         alert('ERROR: ' + errorMsg);
     }
 }
+
+async function deleteItem(sku: string) {
+    try {
+        await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/item/${sku}`);
+        window.location.replace('/');
+    } catch (error) {
+        const errorMsg: string = (error as any)?.response?.data?.detail ?? 'Unknown error';
+        alert('ERROR: ' + errorMsg);
+    }
+}
+
 
 export default ItemPage;
