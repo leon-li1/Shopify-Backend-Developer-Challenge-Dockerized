@@ -1,0 +1,12 @@
+services:
+  server:
+    build: server
+    volumes:
+      - "./server/database.db:/app/database.db"
+    network_mode: "host"
+  client:
+    build: client
+    ports:
+      - "3000:3000"
+    environment:
+      - "NEXT_PUBLIC_SERVER_URL=http://localhost:8000"
