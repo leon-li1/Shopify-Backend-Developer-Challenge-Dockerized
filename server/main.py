@@ -53,9 +53,13 @@ BASE_URL = '/api/item'
 @app.post(BASE_URL)
 async def create(item: CreateInput):
     if item.sku in ('list', 'export'):
-        raise HTTPException(status_code=400, detail=f'sku cannot be the reserved word "{item.sku}"')
+        raise HTTPException(status_code=400, detail=f'SKU cannot be the reserved word "{item.sku}"')
     if item.count <= 0:
-        raise HTTPException(status_code=400, detail='there must be at least one of this item')
+        raise HTTPException(status_code=400, detail='There must be at least one of this item')
+
+    existing_item = await client.item.find_unique(where={ 'sku': item.sku })
+    if existing_item:
+        raise HTTPException(status_code=400, detail=f'Item with SKU {item.sku} already exists')
 
     return await client.item.create(data={
         'sku': item.sku,

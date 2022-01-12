@@ -1,4 +1,4 @@
-FROM python AS deps
+FROM --platform=linux/amd64 python AS deps
 WORKDIR /app
 RUN addgroup --gid 1001 --system python
 RUN adduser --system server -u 1001
@@ -9,7 +9,7 @@ RUN pip install --user -r requirements.txt
 
 ###############
 
-FROM python AS builder
+FROM --platform=linux/amd64 python AS builder
 WORKDIR /app
 RUN addgroup --gid 1001 --system python
 RUN adduser --system server -u 1001
@@ -26,7 +26,7 @@ RUN prisma db push
 
 ###############
 
-FROM python AS runner
+FROM --platform=linux/amd64 python AS runner
 WORKDIR /app
 RUN addgroup --gid 1001 --system python
 RUN adduser --system server -u 1001
@@ -44,4 +44,4 @@ EXPOSE 8000
 ENV PORT 8000
 VOLUME /app/database.db
 
-ENTRYPOINT [ "uvicorn", "main:app", "--reload" ]
+ENTRYPOINT [ "uvicorn", "main:app", "--host", "0.0.0.0" ]

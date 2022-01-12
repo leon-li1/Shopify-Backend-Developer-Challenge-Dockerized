@@ -3,7 +3,8 @@ services:
     build: server
     volumes:
       - "./server/database.db:/app/database.db"
-    network_mode: "host"
+    ports:
+      - "8000:8000"
   client:
     build: client
     ports:

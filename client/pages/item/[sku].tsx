@@ -22,12 +22,12 @@ const ItemPage = () => {
                 <input name="name" defaultValue={item.name} /><br/>
                 <label>Description</label><br/>
                 <input name="description" defaultValue={item.description}/><br/>
-                <label>Name</label><br/>
+                <label>Color</label><br/>
                 <input name="color" defaultValue={item.color}/><br/>
                 <label>Size</label><br/>
                 <input name="size" defaultValue={item.size}/><br/>
                 <label>Count</label><br/>
-                <input name="count" defaultValue={item.count}/><br/><br/>
+                <input name="count" type="number" defaultValue={item.count}/><br/><br/>
                 <button type="submit">Save</button>
             </form>
             <br/>
@@ -39,18 +39,20 @@ const ItemPage = () => {
 async function updateItem(sku: string, event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.target as HTMLFormElement);
+    
+    let reqBody = {};
+    for (const [key, value] of Object.entries(data)) {
+        if (value !== '') {
+            reqBody[key] = value;
+        }
+    }
+
     try {
-        await axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/item/${sku}`, {
-            name: data.get('name'),
-            description: data.get('description'),
-            color: data.get('color'),
-            size: data.get('size'),
-            count: data.get('count'),
-        })
+        await axios.put(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/item/${sku}`, reqBody);
         window.location.reload();
     } catch (error) {
         const errorMsg: string = (error as any)?.response?.data?.detail ?? 'Unknown error';
-        alert('ERROR: ' + errorMsg);
+        alert('ERROR: ' + JSON.stringify(errorMsg));
     }
 }
 
