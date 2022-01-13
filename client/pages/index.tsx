@@ -44,18 +44,18 @@ const CreateItemForm = () => {
         <form onSubmit={createItem}>
             <h3>Create a new item</h3>
             <label>SKU</label><br/>
-            <input name="sku" placeholder="Enter SKU"/><br/>
+            <input name='sku' placeholder='Enter SKU'/><br/>
             <label>Name</label><br/>
-            <input name="name" placeholder="Enter name"/><br/>
+            <input name='name' placeholder='Enter name'/><br/>
             <label>Description</label><br/>
-            <input name="description" placeholder="Enter description"/><br/>
+            <input name='description' placeholder='Enter description'/><br/>
             <label>Size</label><br/>
-            <input name="size" placeholder="Enter size"/><br/>
+            <input name='size' placeholder='Enter size'/><br/>
             <label>Color</label><br/>
-            <input name="color" placeholder="Enter color"/><br/>
+            <input name='color' placeholder='Enter color'/><br/>
             <label>Count</label><br/>
-            <input type="number" name="count" defaultValue={1}/><br/>
-            <button type="submit">Create</button>
+            <input type='number' name='count' defaultValue={1}/><br/>
+            <button type='submit'>Create</button>
         </form>
     );
 }

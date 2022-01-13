@@ -2,7 +2,7 @@
 Lightweight inventory tracking web applicatiton.
 
 ## Technologies
-Built with FastAPI (Python3) on the backend and NextJS (JavaScript) on the frontend.
+Built with FastAPI (Python3) on the backend and NextJS (TypeScript) on the frontend.
 
 ## Running locally
 

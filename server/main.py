@@ -107,7 +107,7 @@ async def export(background_tasks: BackgroundTasks):
     items = await client.item.find_many()
     csvContent = ['sku,name,description,size,color,count']
     for item in items:
-        csvContent.append(f'{item.name},{item.description},{item.color},{item.size},{item.count}')
+        csvContent.append(f'"{item.sku}","{item.name}","{item.description}","{item.size}","{item.color}","{item.count}"')
     filename = f'inventory-{uuid4()}.csv'
     with open(filename, 'w') as f:
         f.write('\n'.join(csvContent))
