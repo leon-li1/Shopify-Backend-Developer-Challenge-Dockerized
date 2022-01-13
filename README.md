@@ -6,7 +6,7 @@ Built with FastAPI (Python3) on the backend and NextJS (TypeScript) on the front
 
 ## Running locally
 
-Make sure you have Docker installed on your machine and that the Docker Daemon is running. Now run the following command in the cloned repository[^2]:
+Make sure you have Docker installed on your machine and that the Docker Daemon is running (Open docker desktop). Now run the following command in the cloned repository[^2] (tested on Mac and Windows):
 
 ```
 docker-compose up
