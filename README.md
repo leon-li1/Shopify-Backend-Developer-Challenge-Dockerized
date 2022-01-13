@@ -1,4 +1,4 @@
-# Shopify-Backend-Developer-Intern-Challenge
+# Shopify-Backend-Developer-Intern-Challenge[^1]
 Lightweight inventory tracking web applicatiton.
 
 ## Technologies
@@ -13,3 +13,6 @@ docker-compose up
 ```
 
 Now visit the client site on http://localhost:3000 after the docker containers starts running.
+
+
+[^1]: Click [here](https://docs.google.com/document/d/1z9LZ_kZBUbg-O2MhZVVSqTmvDko5IJWHtuFmIu_Xg1A/edit#) for original challenge link
