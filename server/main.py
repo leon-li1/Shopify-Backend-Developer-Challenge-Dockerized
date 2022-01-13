@@ -52,10 +52,14 @@ BASE_URL = '/api/item'
 
 @app.post(BASE_URL)
 async def create(item: CreateInput):
-    if item.sku in ('list', 'export'):
-        raise HTTPException(status_code=400, detail=f'SKU cannot be the reserved word "{item.sku}"')
-    if item.count <= 0:
-        raise HTTPException(status_code=400, detail='There must be at least one of this item')
+    try:
+        assert item.sku != '', 'SKU cannot be empty'
+        assert item.sku not in ('list', 'export'), f'SKU cannot be the reserved word "{item.sku}"'
+        assert item.name != '', 'Name cannot be empty'
+        assert item.description != '', 'Description cannot be empty'
+        assert item.count > 0, 'There must be at least one of this item'
+    except AssertionError as e:
+      raise HTTPException(status_code=400, detail=str(e))
 
     existing_item = await client.item.find_unique(where={ 'sku': item.sku })
     if existing_item:
@@ -65,23 +69,27 @@ async def create(item: CreateInput):
         'sku': item.sku,
         'name': item.name,
         'description': item.description,
-        'color': item.color,
-        'size': item.size,
+        'color': item.color or None,
+        'size': item.size or None,
         'count': item.count
     })
 
 @app.put(BASE_URL+'/{sku}')
 async def edit(sku: str, item: UpdateInput):
-    if item.count <= 0:
-        raise HTTPException(status_code=400, detail='there must be at least one of this item')
+    try:
+        assert item.name != '', 'Name cannot be empty'
+        assert item.description != '', 'Description cannot be empty'
+        assert item.count > 0, 'There must be at least one of this item'
+    except AssertionError as e:
+      raise HTTPException(status_code=400, detail=str(e))
 
     return await client.item.update(
         where={ 'sku': sku }, 
         data={
             'name': item.name,
             'description': item.description,
-            'color': item.color,
-            'size': item.size,
+            'color': item.color or None,
+            'size': item.size or None,
             'count': item.count
         }
     )

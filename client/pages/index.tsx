@@ -44,17 +44,17 @@ const CreateItemForm = () => {
         <form onSubmit={createItem}>
             <h3>Create a new item</h3>
             <label>SKU</label><br/>
-            <input name="sku"/><br/>
+            <input name="sku" placeholder="Enter SKU"/><br/>
             <label>Name</label><br/>
-            <input name="name" /><br/>
+            <input name="name" placeholder="Enter name"/><br/>
             <label>Description</label><br/>
-            <input name="description" /><br/>
+            <input name="description" placeholder="Enter description"/><br/>
             <label>Size</label><br/>
-            <input name="size" /><br/>
+            <input name="size" placeholder="Enter size"/><br/>
             <label>Color</label><br/>
-            <input name="color" /><br/>
+            <input name="color" placeholder="Enter color"/><br/>
             <label>Count</label><br/>
-            <input type="number" name="count" /><br/>
+            <input type="number" name="count" defaultValue={1}/><br/>
             <button type="submit">Create</button>
         </form>
     );
@@ -64,22 +64,19 @@ const createItem = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.target as HTMLFormElement);
 
-    let reqBody = {};
-    for (const [key, value] of Object.entries(data)) {
-        if (value !== '') {
-            reqBody[key] = value;
-        }
-    }
-    console.log(data);
-    console.log(e.target);
-    console.log(Object.entries(data));
-
     try {
-        await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/item`, reqBody);
+        await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/item`, { 
+            sku: data.get('sku'),
+            name: data.get('name'),
+            description: data.get('description'),
+            size: data.get('size'),
+            color: data.get('color'),
+            count: data.get('count'),
+        });
         window.location.replace('/item/' + data.get('sku'));
     } catch (error) {
         const errorMsg: string = (error as any)?.response?.data?.detail ?? 'Unknown error';
-        alert('ERROR: ' + JSON.stringify(errorMsg));
+        alert('ERROR: ' + errorMsg);
     }
 };
 
