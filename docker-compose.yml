@@ -10,4 +10,4 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - "NEXT_PUBLIC_SERVER_URL=http://localhost:8000"
+      - "NEXT_PUBLIC_SERVER_URL=https://leonli-inventory-tracker.herokuapp.com"
