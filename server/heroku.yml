@@ -1,0 +1,13 @@
+# for production
+setup:
+  addons:
+    - plan: heroku-postgresql
+      as: DATABASE
+build:
+  docker:
+    server:
+      dockerfile: server/Dockerfile
+  config:
+    DATABASE_PROVIDER: postgres
+release:
+  image: server

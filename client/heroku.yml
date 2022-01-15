@@ -1,0 +1,7 @@
+# for production
+build:
+  docker:
+    server:
+      dockerfile: server/Dockerfile
+      volumes:
+        - "./server/database.db:/app/database.db"
